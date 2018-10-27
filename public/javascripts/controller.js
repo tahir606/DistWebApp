@@ -5,6 +5,9 @@
 
 	appMy.controller('mainCtrl',function($scope,$http){
 
+		$scope.addData = function() {
+			
+		}
 		
 	});
 
