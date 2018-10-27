@@ -23,8 +23,10 @@
 <body ng-controller="mainCtrl" ng-cloak>
 	<h1><%= title %></h1>
 	<p>Welcome to <%= title %></p>
+    <br><br>
 
-	<button ng-click="addData()">Add Distributors</button>
+    <input type="file" file-reader="fileContent" />
+    <div>{{fileContent}}</div>
 
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
