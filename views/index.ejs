@@ -27,8 +27,9 @@
 	<h5>Please strictly follow this format to import items:</h5>
 	<h5 style="font-weight: bold">Item Name;Packing;Rate</h5>
 	<br><br>
-	<h6>{{sampleData}}</h6>
-	<input type="file" model="sampleData"/>
+	<input type="file" file-reader="fileContent"/>
+	<br><br>
+	<h6 ng-repeat="">{{fileContent}}</h6>
 
 	<!--<table class="table" cellspacing="0" cellpadding="0">-->
 		<!--<thead>-->

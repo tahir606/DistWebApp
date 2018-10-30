@@ -10,22 +10,22 @@
     appMy.directive("fileReader", function () {
         return {
             scope: {
-                model: "="
+                fileReader: "="
             },
             link: function (scope, element) {
                 $(element).on('change', function (changeEvent) {
-                    var files = changeEvent.target.files;
-                    if (files.length) {
-                        readFile(files[0], function (content) {
-                            var data = content.split("\n");
-                            data.forEach(function (t) {
-                                var item = t.split(";");
-                                console.log(item);
-                                scope.fileReader = "Wow what";
-                            });
-
-                        });
-                    }
+                    scope.fileReader = "Wow what";
+                    scope.$apply();
+                    // var files = changeEvent.target.files;
+                    // if (files.length) {
+                    //     readFile(files[0], function (content) {
+                    //         var data = content.split("\n");
+                    //         data.forEach(function (t) {
+                    //             var item = t.split(";");
+                    //             console.log(item);
+                    //         });
+                    //     });
+                    // }
                 });
             }
         };
