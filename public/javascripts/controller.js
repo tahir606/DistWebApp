@@ -10,13 +10,12 @@
     appMy.directive("fileReader", function () {
         return {
             scope: {
-                fileReader: "="
+                model: "="
             },
             link: function (scope, element) {
                 $(element).on('change', function (changeEvent) {
                     var files = changeEvent.target.files;
                     if (files.length) {
-                        
                         readFile(files[0], function (content) {
                             var data = content.split("\n");
                             data.forEach(function (t) {
