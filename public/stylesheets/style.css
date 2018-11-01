@@ -14,3 +14,89 @@ a {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 	display: none !important;
 }
+
+.login-page {
+    /*width: 360px;*/
+    /*padding: 8% 0 0;*/
+    /*margin: auto;*/
+}
+
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: #ffffff;
+    max-width: 360px;
+    /*margin: 0 auto 100px;*/
+    bottom: 20px;
+    /*padding: 45px;*/
+    text-align: left ;
+    /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);*/
+}
+
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f3f3f3;
+    width: 100%;
+    border: solid 1px #CCC;
+    /*margin: 0 0 15px;*/
+    padding: 15px;
+    vertical-align: bottom;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/*.form button {*/
+    /*font-family: "Roboto", sans-serif;*/
+    /*text-transform: uppercase;*/
+    /*outline: 0;*/
+    /*!*background: #7c6dff;*!*/
+    /*background: #763977;*/
+    /*width: 100%;*/
+    /*border: 0;*/
+    /*padding: 15px;*/
+    /*color: #ffffff;*/
+    /*font-size: 14px;*/
+    /*-webkit-transition: all 0.3 ease;*/
+    /*cursor: pointer;*/
+/*}*/
+
+.form button:hover, .form button:active, .form button:focus {
+    background: #652f66;
+}
+
+.form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 12px;
+}
+
+.form .message a {
+    color: #7c6dff;
+}
+
+#form_box {
+    position: relative;
+    height: 35px;
+    top: 7px;
+    left: 20px;
+}
+
+#subscribe_email {
+    border: solid 1px #CCC;
+    height: 24px;
+    width: 250px;
+    font-size: 15px;
+    color: #999;
+    padding-left: 5px;
+}
+
+#subscribe_submit {
+    position: relative;
+    border: solid 1px #CCC;
+    height: 25px;
+    width: 115px;
+    color: white;
+}
+
