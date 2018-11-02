@@ -23,29 +23,29 @@
 <body ng-controller="mainCtrl" ng-cloak>
 	<h1><%= title %></h1>
 	<p>Welcome to <%= title %></p>
-	<br><br>
-	<div id="box2" class="tbox">
-		<div id="form_box">
-			<form id="subscribe_form" action="subscribe" method="post">
-				Sign Up:
-				<input class="tbox" id="subscribe_email" type="text" name="email" value="email address" />
-				<input class="tbox" id="subscribe_submit" type="submit" value="Subscribe" />
-			</form>
-		</div>
-	</div>
-	<br><br>
+    <br>
 	<div class="login-page">
-		<div class="form">
-			<form class="login-form" ng-submit="sub()">
-				<input ng-model="distName" name="Distributor Name" required/>
-				<h5>Please strictly follow this format to import items:</h5>
-				<h5 style="font-weight: bold">Item Name;Packing;Rate</h5>
-				<br>
-				<input type='file' onchange='openFile(event)'/>
-				<button>Add Distributor</button>
+		<div id="form_box">
+			<form id="subscribe_form" method="post">
+				Sign Up:
+				<input class="tbox" id="subscribe_email" type="text" name="email" value="Distributor Name" />
+				<input class="tbox" id="subscribe_submit" type="submit" value="Submit" />
 			</form>
 		</div>
 	</div>
+	<br>
+	<!--<div class="login-page">-->
+		<!--<div class="form">-->
+			<!--<form class="login-form" ng-submit="sub()">-->
+				<!--<input ng-model="distName" name="Distributor Name" required/>-->
+				<!--<h5>Please strictly follow this format to import items:</h5>-->
+				<!--<h5 style="font-weight: bold">Item Name;Packing;Rate</h5>-->
+				<!--<br>-->
+				<!--<input type='file' onchange='openFile(event)'/>-->
+				<!--<button>Add Distributor</button>-->
+			<!--</form>-->
+		<!--</div>-->
+	<!--</div>-->
 	<br><br>
 	<table class="table" cellspacing="0" cellpadding="0">
 		<thead>
