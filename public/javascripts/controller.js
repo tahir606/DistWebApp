@@ -8,24 +8,6 @@
 
         $scope.itemList = [];
 
-        $scope.itemList = [{
-            name: "Oreo",
-            pack: "4X2",
-            rate: "20"
-        }, {
-            name: "Milk Pack",
-            pack: "1 Litre",
-            rate: "120"
-        }];
-
-        $scope.itemList.push({
-            name: "Big Head",
-            pack: "1X1",
-            rate: "15000"
-        });
-
-        console.log($scope.itemList);
-
         window.openFile = function (event) {
             var input = event.target;
 
@@ -34,7 +16,7 @@
                 var data = content.split("\n");
                 data.forEach(function (t) {
                     var item = t.split(";");
-                    // console.log(item);
+
                     $scope.itemList.push({
                         name: item[0],
                         pack: item[1],
