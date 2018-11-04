@@ -26,10 +26,7 @@ a {
     position: relative;
     z-index: 1;
     background: #ffffff;
-    max-width: 360px;
-    /*margin: 0 auto 100px;*/
     bottom: 20px;
-    /*padding: 45px;*/
     text-align: left ;
     /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);*/
 }
@@ -38,10 +35,9 @@ a {
     font-family: "Roboto", sans-serif;
     outline: 0;
     background: #f3f3f3;
-    width: 100%;
     border: solid 1px #CCC;
-    /*margin: 0 0 15px;*/
-    padding: 15px;
+    margin: 5px 5px 15px;
+    padding: 5px;
     vertical-align: bottom;
     box-sizing: border-box;
     font-size: 14px;
@@ -53,9 +49,8 @@ a {
     outline: 0;
     /*background: #7c6dff;*/
     background: #763977;
-    width: 100%;
     border: 0;
-    padding: 15px;
+    padding: 5px;
     color: #ffffff;
     font-size: 14px;
     -webkit-transition: all 0.3 ease;

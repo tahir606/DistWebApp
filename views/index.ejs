@@ -23,13 +23,17 @@
 <body ng-controller="mainCtrl" ng-cloak>
 	<h1><%= title %></h1>
 	<p>Welcome to <%= title %></p>
-    <br>
+    <br><br>
 	<div class="login-page">
-		<div id="form_box">
-			<form id="subscribe_form" method="post">
-				Sign Up:
-				<input class="tbox" id="subscribe_email" type="text" name="email" value="Distributor Name" />
-				<input class="tbox" id="subscribe_submit" type="submit" value="Submit" />
+		<div class="form">
+			<form class="login-form" ng-submit="sub()">
+                <h5>Sign Up:</h5>
+				<input ng-model="distributor_name" name="distributor_name" placeholder="Distributor Name" required/>
+                <h5>Please strictly follow this format to import items:</h5>
+                <h5 style="font-weight: bold">Item Name;Packing;Rate</h5>
+                <br>
+                <input type='file' onchange='openFile(event)'/>
+				<input type="submit" value="Submit" />
 			</form>
 		</div>
 	</div>
