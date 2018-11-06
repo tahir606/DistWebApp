@@ -13,7 +13,7 @@
 
             readFile(input.files[0], function (content) {
 
-                var data = content.split("\n");
+                var data = content.split(",");
                 data.forEach(function (t) {
                     var item = t.split(";");
 
@@ -29,37 +29,38 @@
                 $scope.$apply();
             });
         };
-    });
 
-    // appMy.directive("itemList", function () {
-    //     return {
-    //         scope: {
-    //             itemList: "="
-    //         },
-    //         link: function (scope, element) {
-    //             $(element).on('change', function (changeEvent) {
-    //                 var files = changeEvent.target.files;
-    //                 if (files.length) {
-    //                     readFile(files[0], function (content) {
-    //                         scope.itemList = [];
-    //
-    //                         var data = content.split("\n");
-    //                         data.forEach(function (t) {
-    //                             var item = t.split(";");
-    //
-    //                             scope.itemList.push({
-    //                                 name: item[0],
-    //                                 pack: item[1],
-    //                                 rate: item[2]
-    //                             });
-    //                             scope.$apply();
-    //                         });
-    //                     });
-    //                 }
-    //             });
-    //         }
-    //     };
-    // });
+        $scope.sub = function () {
+            console.log("Trying to submit");
+
+            if ($scope.itemList.length < 1) {
+                $scope.msgHide = "Distributors Cannot be added without any Items"
+            }
+
+            console.log($scope.distributor_name);
+
+            //Submitting distributor to insert
+            // var abc = $.param({dist_name: $scope.distributor_name});
+            var abc = {dist_name: "Value"};
+            console.log(abc);
+
+            $http({
+                method: 'POST',
+                url: '/submitDistributor',
+                params: abc,
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (success) {
+                if (success.status === 200) {
+                    // window.location = '/';
+                }
+            }, function (error) {
+                //error
+                console.log(error);
+            });
+
+            console.log("Distributor Added")
+        }
+    });
 
     function readFile(file, cb) { // We pass a callback as parameter
         var content = "";

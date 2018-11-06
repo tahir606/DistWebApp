@@ -25,4 +25,15 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Distribution Network'});
 });
 
+router.post('/submitDistributor', function (req, res) {
+    var distName = req.body.dist_name
+    // items = req.items;
+    // console.log(req);
+    // console.log(req.body);
+    console.log(req.query);
+    // console.log(distName);
+
+    res.end();
+});
+
 module.exports = router;
