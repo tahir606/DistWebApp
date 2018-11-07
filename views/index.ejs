@@ -38,9 +38,29 @@
 			</form>
 		</div>
 	</div>
-	<br><br>
-	<table class="table" cellspacing="0" cellpadding="0">
+	<br>
+	<table ng-style="table_existingItem" style="display: none" class="table ng-cloak" cellspacing="0" cellpadding="0">
 		<thead>
+		<h1 ng-style="table_existingItem" style="display: none; font-weight: bold">Existing Items that will not be added</h1>
+		<tr>
+			<th>Item Name</th>
+			<th>Packing</th>
+			<th>Rate</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr ng-repeat="row in existItemList">
+			<td>{{row.name}}</td>
+			<td>{{row.pack}}</td>
+			<td>{{row.rate}}</td>
+		</tr>
+		</tbody>
+	</table>
+	<br>
+
+	<table ng-style="table_newItem" style="display: none" class="table ng-cloak" cellspacing="0" cellpadding="0">
+		<thead>
+		<h4 ng-style="table_newItem" style="display: none; font-weight: bold">New Items</h4>
 		<tr>
 			<th>Item Name</th>
 			<th>Packing</th>

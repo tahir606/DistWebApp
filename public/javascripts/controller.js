@@ -13,20 +13,37 @@
 
             readFile(input.files[0], function (content) {
 
+                var totalItemList = [];
+
                 var data = content.split(",");
                 data.forEach(function (t) {
                     var item = t.split(";");
+                    item[0] = item[0].replace(/[\n\r]/g,'');;
+                    console.log(item);
 
-                    $scope.itemList.push({
+                    totalItemList.push({
                         name: item[0],
                         pack: item[1],
                         rate: item[2]
                     });
                 });
 
-                console.log($scope.itemList);
+                //Submitting items to check if they exist
+                var itemParams = {items_list: totalItemList};
+                console.log(itemParams);
 
-                $scope.$apply();
+                $http({
+                    method: 'GET',
+                    url: '/checkItems',
+                    params: itemParams,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(function (success) {
+                    if (success.status === 200) {
+
+                    }
+                }, function (error) {
+                    console.log(error);
+                });
             });
         };
 
@@ -39,24 +56,19 @@
 
             console.log($scope.distributor_name);
 
-            //Submitting distributor to insert
-            // var abc = $.param({dist_name: $scope.distributor_name});
-            var abc = {dist_name: "Value"};
-            console.log(abc);
-
-            $http({
-                method: 'POST',
-                url: '/submitDistributor',
-                params: abc,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).then(function (success) {
-                if (success.status === 200) {
-                    // window.location = '/';
-                }
-            }, function (error) {
-                //error
-                console.log(error);
-            });
+            // $http({
+            //     method: 'POST',
+            //     url: '/submitDistributor',
+            //     params: abc,
+            //     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            // }).then(function (success) {
+            //     if (success.status === 200) {
+            //         // window.location = '/';
+            //     }
+            // }, function (error) {
+            //     //error
+            //     console.log(error);
+            // });
 
             console.log("Distributor Added")
         }
@@ -77,3 +89,27 @@
     }
 
 })();
+
+
+//
+// var totalItemList = [];
+//
+// var data = content.split(",");
+// data.forEach(function (t) {
+//     var item = t.split(";");
+//     // item[0] = item[0].replace("\\r","");
+//     // item[0] = item[0].replace("\\n","");
+//
+//     $scope.itemList.push({
+//         name: item[0],
+//         pack: item[1],
+//         rate: item[2]
+//     });
+// });
+//
+// console.log($scope.itemList);
+//
+// // $scope.table_newItem =  {
+// //     "display" : "table"
+// // };
+// // $scope.$apply();

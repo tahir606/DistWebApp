@@ -7,33 +7,63 @@ var con = mysql.createConnection({
     host: "localhost",
     user: "crm",
     password: "crm123!@#",
-    database: "bits_crm"
+    database: "dist_network"
 });
 
-con.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
-    con.query("SELECT * FROM CLIENT_STORE", function (err, rows, fields) {
-        if (err) throw err;
-        console.log("Rows: " + rows[5].CL_NAME);
-    });
-    con.end();
-});
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
     res.render('index', {title: 'Distribution Network'});
 });
 
-router.post('/submitDistributor', function (req, res) {
-    var distName = req.body.dist_name
-    // items = req.items;
-    // console.log(req);
-    // console.log(req.body);
-    console.log(req.query);
-    // console.log(distName);
-
+router.get('/checkItems', function (req, res) {
+    console.log(req.query.items_list);
     res.end();
 });
+
+router.post('/submitDistributor', function (req, res) {
+    console.log(req.query.dist_name);
+    console.log(req.query.items_list);
+    res.end();
+});
+
+var checkDuplicateItems = function () {
+    con.connect(function (err) {
+        if (err) throw err;
+        con.query("SELECT ", function (err, rows, fields) {
+            if (err) throw err;
+            console.log("Rows: " + rows[5].CL_NAME);
+        });
+        con.end();
+    });
+};
+
+var insertNewDistributorInDb = function (dist) {
+    con.connect(function (err) {
+        if (err) throw err;
+
+        con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
+            "SELECT IFNULL(max(),0)+1,? FROM DISTRIBUTOR_LIST",
+            {
+
+            },
+            function (err) {
+                if (err) throw err;
+
+            });
+        con.end();
+    });
+};
+
+var insertNewItemsInDb = function () {
+    con.connect(function (err) {
+        if (err) throw err;
+        con.query("INSERT INTO ITEM_LIST VALUE ", function (err, rows, fields) {
+            if (err) throw err;
+            console.log("Rows: " + rows[5].CL_NAME);
+        });
+        con.end();
+    });
+};
 
 module.exports = router;
