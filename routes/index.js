@@ -24,6 +24,7 @@ router.get('/checkItems', function (req, res) {
 router.post('/submitDistributor', function (req, res) {
     console.log(req.query.dist_name);
     console.log(req.query.items_list);
+    insertNewDistributorInDb(req.query.dist_name)
     res.end();
 });
 
@@ -43,10 +44,8 @@ var insertNewDistributorInDb = function (dist) {
         if (err) throw err;
 
         con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
-            "SELECT IFNULL(max(),0)+1,? FROM DISTRIBUTOR_LIST",
-            {
-
-            },
+            "SELECT IFNULL(max(DNO),0)+1,? FROM DISTRIBUTOR_LIST",
+            [dist],
             function (err) {
                 if (err) throw err;
 
