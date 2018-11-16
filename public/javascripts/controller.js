@@ -18,8 +18,9 @@
                 var data = content.split(",");
                 data.forEach(function (t) {
                     var item = t.split(";");
-                    item[0] = item[0].replace(/[\n\r]/g,'');;
-                    console.log(item);
+                    item[0] = item[0].replace(/[\n\r]/g, '');
+                    ;
+                    // console.log(item);
 
                     totalItemList.push({
                         name: item[0],
@@ -29,14 +30,15 @@
                 });
 
                 $scope.itemList = totalItemList;
+                console.log($scope.itemList);
                 $scope.table_newItem = {
-                    display: 'inline'
-                }
-                $scope.apply();
+                    display: 'table'
+                };
+                $scope.$apply();
 
                 //Submitting items to check if they exist
-                // var itemParams = {items_list: totalItemList};
-                // console.log(itemParams);
+                var itemParams = {items_list: totalItemList};
+                console.log(itemParams);
 
                 // $http({
                 //     method: 'GET',
@@ -60,12 +62,18 @@
                 $scope.msgHide = "Distributors Cannot be added without any Items"
             }
 
-            console.log($scope.distributor_name);
-
             var abc = {
-                distName : $scope.distributor_name,
+                distName: $scope.distributor_name,
                 itemList: $scope.itemList
             };
+
+            // var items = $scope.itemList;
+            // var json = angular.toJson(items);
+            // // var objectToSerialize =
+            //
+            // var abc = {
+            //     itemList : json
+            // };
 
             $http({
                 method: 'POST',
