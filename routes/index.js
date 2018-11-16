@@ -22,9 +22,10 @@ router.get('/checkItems', function (req, res) {
 });
 
 router.post('/submitDistributor', function (req, res) {
-    console.log(req.query.dist_name);
+    console.log(req.query.distName);
     console.log(req.query.items_list);
-    insertNewDistributorInDb(req.query.dist_name)
+    insertNewDistributorInDb(req.query.distName);
+    insertNewItemsInDb(req.query.itemList)
     res.end();
 });
 
@@ -54,12 +55,14 @@ var insertNewDistributorInDb = function (dist) {
     });
 };
 
-var insertNewItemsInDb = function () {
+var insertNewItemsInDb = function (items) {
     con.connect(function (err) {
         if (err) throw err;
-        con.query("INSERT INTO ITEM_LIST VALUE ", function (err, rows, fields) {
+        con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESC) " +
+            " SELECT IFNULL(max(INO),0)+1,?,?,? FROM ITEM_LIST",
+            [items],
+            function (err, rows, fields) {
             if (err) throw err;
-            console.log("Rows: " + rows[5].CL_NAME);
         });
         con.end();
     });
