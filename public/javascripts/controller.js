@@ -64,7 +64,7 @@
 
             var abc = {
                 distName: $scope.distributor_name,
-                itemList: $scope.itemList
+                itemList: JSON.stringifyg($scope.itemList)
             };
 
             // var items = $scope.itemList;
