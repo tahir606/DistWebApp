@@ -35,8 +35,14 @@ router.post('/submitDistributor', function (req, res) {
     res.end();
 });
 
-var checkDuplicateItems = function () {
-    con.query("SELECT INO, INAME FROM ITEM_LIST WHERE INAME LIKE ", function (err, rows, fields) {
+var checkDuplicateItems = function (items) {
+    var query = "SELECT INO, INAME FROM ITEM_LIST WHERE INAME LIKE ";
+
+    items.forEach(function (t) {
+        query = query + " AND INAME LIKE \"" + t.name + "\" ";
+    });
+
+    con.query(query, function (err, rows, fields) {
         if (err) throw err;
         // console.log("Rows: " + rows[5].CL_NAME);
         callable();
