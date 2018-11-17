@@ -19,14 +19,16 @@
                 data.forEach(function (t) {
                     var item = t.split(";");
                     item[0] = item[0].replace(/[\n\r]/g, '');
-                    ;
-                    // console.log(item);
 
-                    totalItemList.push({
-                        name: item[0],
-                        pack: item[1],
-                        rate: item[2]
-                    });
+                    if (item[0] == "" || item[1] == "" || item[2] == "") {
+
+                    } else {
+                        totalItemList.push({
+                            name: item[0],
+                            pack: item[1],
+                            rate: item[2]
+                        });
+                    }
                 });
 
                 $scope.itemList = totalItemList;
@@ -64,22 +66,14 @@
 
             var abc = {
                 distName: $scope.distributor_name,
-                itemList: JSON.stringifyg($scope.itemList)
+                itemList: JSON.stringify($scope.itemList)
             };
-
-            // var items = $scope.itemList;
-            // var json = angular.toJson(items);
-            // // var objectToSerialize =
-            //
-            // var abc = {
-            //     itemList : json
-            // };
 
             $http({
                 method: 'POST',
                 url: '/submitDistributor',
                 params: abc,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: {'Content-Type': undefined}
             }).then(function (success) {
                 if (success.status === 200) {
                     // window.location = '/';
