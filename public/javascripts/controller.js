@@ -22,11 +22,23 @@
                     var item = t.split(";");
                     item[0] = item[0].replace(/[\n\r]/g, '');
 
+<<<<<<< HEAD
                     totalItemList.push({
                         name: item[0],
                         pack: item[1],
                         rate: item[2]
                     });
+=======
+                    if (item[0] == "" || item[1] == "" || item[2] == "") {
+
+                    } else {
+                        totalItemList.push({
+                            name: item[0],
+                            pack: item[1],
+                            rate: item[2]
+                        });
+                    }
+>>>>>>> 60ed007c9e2f54eb4138ea0ba38c09cd90ac7ff5
                 });
 
                 $scope.itemList = totalItemList;
@@ -67,19 +79,11 @@
                 itemList: JSON.stringify($scope.itemList)
             };
 
-            // var items = $scope.itemList;
-            // var json = angular.toJson(items);
-            // // var objectToSerialize =
-            //
-            // var abc = {
-            //     itemList : json
-            // };
-
             $http({
                 method: 'POST',
                 url: '/submitDistributor',
                 params: abc,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                headers: {'Content-Type': undefined}
             }).then(function (success) {
                 if (success.status === 200) {
                     // window.location = '/';

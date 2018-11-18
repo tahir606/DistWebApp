@@ -32,19 +32,25 @@ router.post('/submitDistributor', function (req, res) {
     console.log(req.query.itemList);
     // insertNewDistributorInDb(req.query.distName);
     insertNewItemsInDb(req.query.itemList);
+    insertNewDistributorInDb(req.query.distName);
+    var items = JSON.parse(req.query.itemList);
+    insertNewItemsInDb(items);
+
     res.end();
 });
 
-var checkDuplicateItems = function () {
-    // con.connect(function (err) {
-    //     if (err) throw err;
-    //     con.query("SELECT ", function (err, rows, fields) {
-    //         if (err) throw err;
-    //         // console.log("Rows: " + rows[5].CL_NAME);
-    //         callable();
-    //     });
-    //     con.end();
-    // });
+var checkDuplicateItems = function (items) {
+    var query = "SELECT INO, INAME FROM ITEM_LIST WHERE INAME LIKE ";
+
+    items.forEach(function (t) {
+        query = query + " AND INAME LIKE \"" + t.name + "\" ";
+    });
+
+    con.query(query, function (err, rows, fields) {
+        if (err) throw err;
+        // console.log("Rows: " + rows[5].CL_NAME);
+        callable();
+    });
 };
 
 var insertNewDistributorInDb = function (dist) {
@@ -76,19 +82,19 @@ var insertNewItemsInDb = function (items) {
 
         console.log(items[0]);
 
-        // con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESC) " +
-        //     " SELECT IFNULL(max(INO),0)+1,?,?,? FROM ITEM_LIST",
-        //     [items[0].name, items[0].pack, items[0].rate],
-        //     // [items],
-        //     function (err, rows, fields) {
-        //         if (err) {
-        //             console.log("Error in query");
-        //             console.log(err);
-        //             return;
-        //         }
-        //         console.log("Successfully Added")
-        //     });
-        // con.end();
+    items.forEach(function (t) {
+        con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION) " +
+            " SELECT IFNULL(max(INO),0)+1,?,?,? FROM ITEM_LIST",
+            [t.name, t.rate, t.pack],
+            function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                console.log("Successfully Added")
+            });
+    });
+    // con.end();
     });
 };
 
