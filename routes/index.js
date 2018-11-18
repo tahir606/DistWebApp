@@ -29,7 +29,7 @@ router.get('/checkItems', function (req, res) {
 
 router.post('/submitDistributor', function (req, res) {
     // console.log(req.query.distName);
-    // console.log(req.query.itemList);
+    console.log(req.query.itemList);
     // insertNewDistributorInDb(req.query.distName);
     insertNewItemsInDb(req.query.itemList);
     res.end();
@@ -74,7 +74,7 @@ var insertNewItemsInDb = function (items) {
             return;
         }
 
-        console.log(items);
+        console.log(items[0]);
 
         // con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESC) " +
         //     " SELECT IFNULL(max(INO),0)+1,?,?,? FROM ITEM_LIST",

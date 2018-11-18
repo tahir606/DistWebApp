@@ -15,12 +15,12 @@
 
                 var totalItemList = [];
 
+                console.log(content);
+
                 var data = content.split(",");
                 data.forEach(function (t) {
                     var item = t.split(";");
                     item[0] = item[0].replace(/[\n\r]/g, '');
-                    ;
-                    // console.log(item);
 
                     totalItemList.push({
                         name: item[0],
@@ -64,7 +64,7 @@
 
             var abc = {
                 distName: $scope.distributor_name,
-                itemList: JSON.stringifyg($scope.itemList)
+                itemList: JSON.stringify($scope.itemList)
             };
 
             // var items = $scope.itemList;
