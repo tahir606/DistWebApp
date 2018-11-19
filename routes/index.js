@@ -3,13 +3,13 @@ var router = express.Router();
 
 var mysql = require('mysql');
 
-var con = mysql.createConnection({
+var pool = mysql.createPool({
+    connectionLimit: 10,
     host: "localhost",
     user: "crm",
     password: "crm123!@#",
     database: "dist_network"
 });
-
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -17,21 +17,17 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/checkItems', function (req, res) {
-    // console.log(req.query.items_list);
-    checkDuplicateItems(function (data) {
-        // res.send({
-        //     reps: items
-        // });
-        res.end();
+    checkDuplicateItems(JSON.parse(req.query.items_list), function (rows) {
+        res.send({
+            items: rows
+        });
     });
-
 });
 
 router.post('/submitDistributor', function (req, res) {
     // console.log(req.query.distName);
-    console.log(req.query.itemList);
-    // insertNewDistributorInDb(req.query.distName);
-    insertNewItemsInDb(req.query.itemList);
+    // console.log(req.query.itemList);
+
     insertNewDistributorInDb(req.query.distName);
     var items = JSON.parse(req.query.itemList);
     insertNewItemsInDb(items);
@@ -39,25 +35,24 @@ router.post('/submitDistributor', function (req, res) {
     res.end();
 });
 
-var checkDuplicateItems = function (items) {
-    var query = "SELECT INO, INAME FROM ITEM_LIST WHERE INAME LIKE ";
+var checkDuplicateItems = function (items, callable) {
+    var query = "SELECT INO, INAME, ITRADEP, DESCRIPTION FROM ITEM_LIST WHERE 1 ";
 
     items.forEach(function (t) {
-        query = query + " AND INAME LIKE \"" + t.name + "\" ";
+        query = query + " OR INAME LIKE \"" + t.name + "\" ";
     });
 
-    con.query(query, function (err, rows, fields) {
+    console.log(query);
+
+    pool.query(query, function (err, rows) {
         if (err) throw err;
-        // console.log("Rows: " + rows[5].CL_NAME);
-        callable();
+        callable(rows);
     });
 };
 
 var insertNewDistributorInDb = function (dist) {
-    con.connect(function (err) {
-        if (err) throw err;
 
-        con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
+        pool.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
             "SELECT IFNULL(max(DNO),0)+1,? FROM DISTRIBUTOR_LIST",
             [dist],
             function (err) {
@@ -69,21 +64,13 @@ var insertNewDistributorInDb = function (dist) {
             });
         console.log("Ending connection")
         // con.end();
-    });
 };
 
 var insertNewItemsInDb = function (items) {
-    con.connect(function (err) {
-        if (err) {
-            console.log("Error in connection");
-            console.log(err);
-            return;
-        }
-
         console.log(items[0]);
 
     items.forEach(function (t) {
-        con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION) " +
+        pool.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION) " +
             " SELECT IFNULL(max(INO),0)+1,?,?,? FROM ITEM_LIST",
             [t.name, t.rate, t.pack],
             function (err) {
@@ -93,8 +80,6 @@ var insertNewItemsInDb = function (items) {
                 }
                 console.log("Successfully Added")
             });
-    });
-    // con.end();
     });
 };
 
