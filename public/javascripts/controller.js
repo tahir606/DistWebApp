@@ -43,15 +43,23 @@
                     headers: {'Content-Type': undefined}
                 }).then(function (success) {
                     if (success.status === 200) {
-                        $scope.existItemList = totalItemList;
+
+                        console.log(success.data);
+                        console.log(totalItemList);
+
+                        $scope.existItemList = success.data.items;
                         $scope.table_existingItem = {
                             display: 'table'
                         };
 
-                        var temp = $scope.existItemList;
-                        temp.forEach(function (t) {
-                            temp
-                        });
+                        // console.log($scope.existItemList);
+
+                        // var temp = $scope.existItemList;
+                        // temp.forEach(function (it) {
+                        //     totalItemList.forEach(function (t) {
+                        //
+                        //     });
+                        // });
                     }
                 }, function (error) {
                     console.log(error);
