@@ -52,14 +52,16 @@
                             display: 'table'
                         };
 
-                        // console.log($scope.existItemList);
+                        console.log($scope.existItemList);
 
-                        // var temp = $scope.existItemList;
-                        // temp.forEach(function (it) {
-                        //     totalItemList.forEach(function (t) {
-                        //
-                        //     });
-                        // });
+                        var temp = $scope.existItemList;
+                        temp.forEach(function (it) {
+                            totalItemList.forEach(function (t) {
+                                if (it.name == t.name) {
+
+                                }
+                            });
+                        });
                     }
                 }, function (error) {
                     console.log(error);

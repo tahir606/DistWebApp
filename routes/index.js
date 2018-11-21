@@ -78,7 +78,7 @@ var insertNewItemsInDb = function (items) {
                     console.log(err);
                     return;
                 }
-                console.log("Successfully Added")
+                console.log("Successfully Added");
             });
     });
 };
