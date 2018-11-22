@@ -33,6 +33,14 @@
                     }
                 });
 
+                // $scope.itemList = totalItemList;
+                //
+                // $scope.table_newItem = {
+                //     display: 'table'
+                // };
+                //
+                // $scope.$apply();
+
                 //Submitting items to check if they exist
                 var itemParams = {items_list: JSON.stringify(totalItemList)};
 
@@ -59,11 +67,12 @@
                         console.log(temp);
 
                         temp.forEach(function (it) {
+                            var c = 0;
                             totalItemList.forEach(function (t) {
-                                console.log(it.INAME + " = ", t.name);
-                                if (it.name === t.name) {
-                                    console.log("Removing");
-                                    totalItemList.remove(t);
+                                c++;
+                                if (it.INAME == t.name) {
+                                    console.log("Removing " + c);
+                                    totalItemList.splice(c, 1);
                                 }
                             });
                         });
