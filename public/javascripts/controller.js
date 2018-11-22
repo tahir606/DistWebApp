@@ -55,13 +55,20 @@
                         console.log($scope.existItemList);
 
                         var temp = $scope.existItemList;
+
+                        console.log(temp);
+
                         temp.forEach(function (it) {
                             totalItemList.forEach(function (t) {
-                                if (it.name == t.name) {
-
+                                console.log(it.INAME + " = ", t.name);
+                                if (it.name === t.name) {
+                                    console.log("Removing");
+                                    totalItemList.remove(t);
                                 }
                             });
                         });
+
+                        console.log(totalItemList);
                     }
                 }, function (error) {
                     console.log(error);
