@@ -5,25 +5,23 @@
 
     appMy.controller('mainCtrl', function ($scope, $http) {
         $scope.sampleData = "Sample Data";
-
         $scope.itemList = [];
+
+        var display = {
+            display: 'table'
+        };
 
         window.openFile = function (event) {
             var input = event.target;
-
             readFile(input.files[0], function (content) {
 
                 var totalItemList = [];
-
-                console.log(content);
-
                 var data = content.split(",");
                 data.forEach(function (t) {
                     var item = t.split(";");
                     item[0] = item[0].replace(/[\n\r]/g, '');
 
                     if (item[0] == "" || item[1] == "" || item[2] == "") {
-
                     } else {
                         totalItemList.push({
                             name: item[0],
@@ -33,17 +31,8 @@
                     }
                 });
 
-                // $scope.itemList = totalItemList;
-                //
-                // $scope.table_newItem = {
-                //     display: 'table'
-                // };
-                //
-                // $scope.$apply();
-
                 //Submitting items to check if they exist
                 var itemParams = {items_list: JSON.stringify(totalItemList)};
-
                 $http({
                     method: 'GET',
                     url: '/checkItems',
@@ -52,32 +41,39 @@
                 }).then(function (success) {
                     if (success.status === 200) {
 
-                        console.log(success.data);
-                        console.log(totalItemList);
-
                         $scope.existItemList = success.data.items;
-                        $scope.table_existingItem = {
-                            display: 'table'
-                        };
+                        if ($scope.existItemList.length < 1) {
+                            $scope.exist_item_msg = display;
+                        } else {
+                            $scope.table_existingItem = display;
+                        }
 
-                        console.log($scope.existItemList);
-
-                        var temp = $scope.existItemList;
-
-                        console.log(temp);
-
-                        temp.forEach(function (it) {
-                            var c = 0;
-                            totalItemList.forEach(function (t) {
-                                c++;
-                                if (it.INAME == t.name) {
-                                    console.log("Removing " + c);
-                                    totalItemList.splice(c, 1);
+                        var BreakException = {};
+                        var c = $scope.existItemList.length;    //Number of existing items
+                        while (c > 0) {   //Loop until all the existing items have been expunged
+                            try {
+                                for (var i = 0; i < totalItemList.length; i++) {
+                                    $scope.existItemList.forEach(function (item) {
+                                        if (totalItemList[i].name == item.INAME) {  // If item names are same remove that object from array
+                                            totalItemList.splice(i, 1);     //On removing break from the checking loop and start all over again with the while loop
+                                            c--;
+                                            throw BreakException;
+                                        }
+                                    });
                                 }
-                            });
-                        });
+                            } catch (e) {
+                                if (e !== BreakException) throw e;
+                            }
+                        }
 
-                        console.log(totalItemList);
+                        $scope.itemList = totalItemList;
+                        if ($scope.itemList.length < 1) {
+                            $scope.new_item_msg = display;
+                        } else {
+                            $scope.table_newItem = display;
+                        }
+
+
                     }
                 }, function (error) {
                     console.log(error);
