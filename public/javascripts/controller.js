@@ -55,6 +55,8 @@
                                 for (var i = 0; i < totalItemList.length; i++) {
                                     $scope.existItemList.forEach(function (item) {
                                         if (totalItemList[i].name == item.INAME) {  // If item names are same remove that object from array
+                                            console.log("Removing: "
+                                                + totalItemList[i].name + " == " + item.INAME);
                                             totalItemList.splice(i, 1);     //On removing break from the checking loop and start all over again with the while loop
                                             c--;
                                             throw BreakException;
@@ -106,7 +108,7 @@
                 console.log(error);
             });
 
-            console.log("Distributor Added")
+            console.log("Distributor Added");
         }
     });
 

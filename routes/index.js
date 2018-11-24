@@ -36,7 +36,7 @@ router.post('/submitDistributor', function (req, res) {
 });
 
 var checkDuplicateItems = function (items, callable) {
-    var query = "SELECT INO, INAME, ITRADEP, DESCRIPTION AS pack FROM ITEM_LIST WHERE 1 ";
+    var query = "SELECT INO, INAME, ITRADEP, DESCRIPTION FROM ITEM_LIST WHERE 1 ";
 
     items.forEach(function (t) {
         query = query + " OR INAME LIKE \"" + t.name + "\" ";
@@ -63,13 +63,10 @@ var insertNewDistributorInDb = function (dist) {
                 console.log(err);
                 return;
             }
-
         });
-    // con.end();
 };
 
 var insertNewItemsInDb = function (items) {
-    console.log(items[0]);
 
     items.forEach(function (t) {
         pool.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION) " +
