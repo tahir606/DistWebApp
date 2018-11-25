@@ -48,9 +48,11 @@
                             $scope.table_existingItem = display;
                         }
 
+                        console.log($scope.existItemList);
+
                         var BreakException = {};
                         var c = $scope.existItemList.length;    //Number of existing items
-                        while (c > 0) {   //Loop until all the existing items have been expunged
+                        while (c > -1) {   //Loop until all the existing items have been expunged
                             try {
                                 for (var i = 0; i < totalItemList.length; i++) {
                                     $scope.existItemList.forEach(function (item) {
