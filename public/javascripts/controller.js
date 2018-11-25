@@ -43,8 +43,10 @@
 
                         $scope.existItemList = success.data.items;
                         if ($scope.existItemList.length < 1) {
+                            console.log("Not displaying");
                             $scope.exist_item_msg = display;
                         } else {
+                            console.log("displaying");
                             $scope.table_existingItem = display;
                         }
 
@@ -52,21 +54,23 @@
 
                         var BreakException = {};
                         var c = $scope.existItemList.length;    //Number of existing items
-                        while (c > -1) {   //Loop until all the existing items have been expunged
-                            try {
-                                for (var i = 0; i < totalItemList.length; i++) {
-                                    $scope.existItemList.forEach(function (item) {
-                                        if (totalItemList[i].name == item.INAME) {  // If item names are same remove that object from array
-                                            console.log("Removing: "
-                                                + totalItemList[i].name + " == " + item.INAME);
-                                            totalItemList.splice(i, 1);     //On removing break from the checking loop and start all over again with the while loop
-                                            c--;
-                                            throw BreakException;
-                                        }
-                                    });
+                        if (c != 0) {   //If exist Item length is 0
+                            while (c > -1) {   //Loop until all the existing items have been expunged
+                                try {
+                                    for (var i = 0; i < totalItemList.length; i++) {
+                                        $scope.existItemList.forEach(function (item) {
+                                            if (totalItemList[i].name == item.INAME) {  // If item names are same remove that object from array
+                                                console.log("Removing: "
+                                                    + totalItemList[i].name + " == " + item.INAME);
+                                                totalItemList.splice(i, 1);     //On removing break from the checking loop and start all over again with the while loop
+                                                c--;
+                                                throw BreakException;
+                                            }
+                                        });
+                                    }
+                                } catch (e) {
+                                    if (e !== BreakException) throw e;
                                 }
-                            } catch (e) {
-                                if (e !== BreakException) throw e;
                             }
                         }
 
