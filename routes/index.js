@@ -37,8 +37,8 @@ router.post('/submitDistributor', function (req, res) {
     var items = JSON.parse(req.query.itemList);
     insertNewItemsInDb(items, function () {
         var toINO = getMaxItemNo();
-        for (fromINO; fromINO >= toINO; i++) {
-
+        for (fromINO; fromINO >= toINO; fromINO++) {
+            createItemDistLink(maxDNO, fromINO);
         }
     });
     res.end();
@@ -95,9 +95,10 @@ var insertNewItemsInDb = function (items) {
 };
 
 //This will create a link between the last item added to the database
-var createItemDistLink = function () {
+var createItemDistLink = function (ino, dno) {
     con.query("INSERT INTO item_distributor_link (INO, DNO) " +
-        "SELECT MAX(INO), MAX(DNO) FROM item_list, distributor_list",
+        " VALUES (?,?)",
+        [ino, dno],
         function (err) {
             if (err) {
                 console.log(err);
@@ -120,14 +121,14 @@ var getMaxItemNo = function (callback) {
 };
 
 var getMaxDistNo = function () {
-    con.query("SELECT MAX(DNO) AS INO FROM DISTRIBUTOR_LIST",
-        function (err, success) {
+    con.query("SELECT IFNULL(MAX(DNO),0) AS DNO FROM DISTRIBUTOR_LIST",
+        function (err, rows) {
             if (err) {
                 console.log(err);
                 return;
             }
-            console.log("MAX DNO: " + success.data.DNO);
-            return success.data.DNO;
+            console.log(rows[0].DNO);
+            // return success.data.DNO;
         });
 };
 
