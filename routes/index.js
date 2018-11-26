@@ -36,10 +36,11 @@ router.post('/submitDistributor', function (req, res) {
     });
     var items = JSON.parse(req.query.itemList);
     insertNewItemsInDb(items, function () {
-        var toINO = getMaxItemNo();
-        for (fromINO; fromINO >= toINO; fromINO++) {
-            createItemDistLink(maxDNO, fromINO);
-        }
+        getMaxItemNo(function (toINO) {
+            for (fromINO; fromINO >= toINO; fromINO++) {
+                createItemDistLink(maxDNO, fromINO);
+            }
+        });
     });
     res.end();
 });
@@ -77,7 +78,7 @@ var insertNewDistributorInDb = function (dist, callback) {
         });
 };
 
-var insertNewItemsInDb = function (items) {
+var insertNewItemsInDb = function (items, callback) {
 
     items.forEach(function (t) {
         con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION) " +
@@ -109,26 +110,24 @@ var createItemDistLink = function (ino, dno) {
 };
 
 var getMaxItemNo = function (callback) {
-    con.query("SELECT MAX(INO) AS INO FROM ITEM_LIST",
-        function (err, success) {
+    con.query("SELECT IFNULL(MAX(INO),0) AS INO FROM ITEM_LIST",
+        function (err, rows) {
             if (err) {
                 console.log(err);
                 return;
             }
-            console.log("MAX INO: " + success.data.INO);
-            callback(success.data.INO);
+            callback(rows[0].INO);
         });
 };
 
-var getMaxDistNo = function () {
+var getMaxDistNo = function (callable) {
     con.query("SELECT IFNULL(MAX(DNO),0) AS DNO FROM DISTRIBUTOR_LIST",
         function (err, rows) {
             if (err) {
                 console.log(err);
                 return;
             }
-            console.log(rows[0].DNO);
-            // return success.data.DNO;
+            callable(rows[0].DNO);
         });
 };
 
