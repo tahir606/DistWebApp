@@ -3,7 +3,7 @@ var router = express.Router();
 
 var mysql = require('mysql');
 
-var pool = mysql.createPool({
+var con = mysql.createConnection({
     connectionLimit: 10,
     host: "localhost",
     user: "crm",
@@ -25,13 +25,22 @@ router.get('/checkItems', function (req, res) {
 });
 
 router.post('/submitDistributor', function (req, res) {
-    // console.log(req.query.distName);
-    // console.log(req.query.itemList);
-
-    insertNewDistributorInDb(req.query.distName);
+    var maxDNO, fromINO;
+    insertNewDistributorInDb(req.query.distName, function () {
+        getMaxDistNo(function (DNO) {
+            maxDNO = DNO;
+            getMaxItemNo(function (INO) {
+                fromINO = INO;
+            });
+        });
+    });
     var items = JSON.parse(req.query.itemList);
-    insertNewItemsInDb(items);
+    insertNewItemsInDb(items, function () {
+        var toINO = getMaxItemNo();
+        for (fromINO; fromINO >= toINO; i++) {
 
+        }
+    });
     res.end();
 });
 
@@ -44,7 +53,7 @@ var checkDuplicateItems = function (items, callable) {
 
     console.log(query);
 
-    pool.query(query, function (err, rows) {
+    con.query(query, function (err, rows) {
         if (err) {
             console.log(err);
             return;
@@ -53,15 +62,17 @@ var checkDuplicateItems = function (items, callable) {
     });
 };
 
-var insertNewDistributorInDb = function (dist) {
+var insertNewDistributorInDb = function (dist, callback) {
 
-    pool.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
+    con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
         "SELECT IFNULL(max(DNO),0)+1,? FROM DISTRIBUTOR_LIST",
         [dist],
         function (err) {
             if (err) {
                 console.log(err);
                 return;
+            } else {
+                callback();
             }
         });
 };
@@ -69,7 +80,7 @@ var insertNewDistributorInDb = function (dist) {
 var insertNewItemsInDb = function (items) {
 
     items.forEach(function (t) {
-        pool.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION) " +
+        con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION) " +
             " SELECT IFNULL(max(INO),0)+1,?,?,? FROM ITEM_LIST",
             [t.name, t.rate, t.pack],
             function (err) {
@@ -77,22 +88,46 @@ var insertNewItemsInDb = function (items) {
                     console.log(err);
                     return;
                 }
-                console.log("Successfully Added");
-                createItemDistLink();
             });
     });
+
+    callback();
 };
 
 //This will create a link between the last item added to the database
 var createItemDistLink = function () {
-    pool.query("INSERT INTO item_distributor_link (INO, DNO) " +
-    "SELECT MAX(INO), MAX(DNO) FROM item_list, distributor_list",
+    con.query("INSERT INTO item_distributor_link (INO, DNO) " +
+        "SELECT MAX(INO), MAX(DNO) FROM item_list, distributor_list",
         function (err) {
             if (err) {
                 console.log(err);
                 return;
             }
-            console.log("Successfully Added");
+            console.log("Created Link");
+        });
+};
+
+var getMaxItemNo = function (callback) {
+    con.query("SELECT MAX(INO) AS INO FROM ITEM_LIST",
+        function (err, success) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log("MAX INO: " + success.data.INO);
+            callback(success.data.INO);
+        });
+};
+
+var getMaxDistNo = function () {
+    con.query("SELECT MAX(DNO) AS INO FROM DISTRIBUTOR_LIST",
+        function (err, success) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log("MAX DNO: " + success.data.DNO);
+            return success.data.DNO;
         });
 };
 
