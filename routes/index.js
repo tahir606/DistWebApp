@@ -25,24 +25,36 @@ router.get('/checkItems', function (req, res) {
 });
 
 router.post('/submitDistributor', function (req, res) {
-    var maxDNO, fromINO;
-    insertNewDistributorInDb(req.query.distName, function () {
-        getMaxDistNo(function (DNO) {
+    //Everything must be executed through callable so that the values of insertion do not come up undefined
+    var maxDNO,     //The distributor number that was last added
+        fromINO;    //The last item number that was added before we start creating the link
+    insertNewDistributorInDb(req.query.distName, function () {      //Insert new Distributor
+        getMaxDistNo(function (DNO) {       //Get the code for the distributor we just inserted
+            //New Items -------
             maxDNO = DNO;
-            getMaxItemNo(function (INO) {
+            getMaxItemNo(function (INO) {   //Get the item that was last added
                 fromINO = INO;
+                fromINO++;          //Because the last item created is already linked to previous distributor(s)
+                var items = JSON.parse(req.query.itemList);
+                insertNewItemsInDb(items, function () {     //Insert the new Items into the database
+                    getMaxItemNo(function (toINO) {         //Get the item number after all the new items have been added
+                        for (fromINO; fromINO <= toINO; fromINO++) {    //Create a dist_item link from fromINO to toINO
+                            createItemDistLink(fromINO, maxDNO);
+                        }
+                    });
+                });
+                res.end();
             });
-        });
-    });
-    var items = JSON.parse(req.query.itemList);
-    insertNewItemsInDb(items, function () {
-        getMaxItemNo(function (toINO) {
-            for (fromINO; fromINO >= toINO; fromINO++) {
-                createItemDistLink(maxDNO, fromINO);
+            //----------------
+            var existItems = JSON.parse(req.query.existItemList);
+            if (existItems.length > 0) {
+                existItems.forEach(function (it) {
+                    console.log("Adding existing item: " + it.INO);
+                    createItemDistLink(it.INO, maxDNO);
+                });
             }
         });
     });
-    res.end();
 });
 
 var checkDuplicateItems = function (items, callable) {
@@ -105,7 +117,6 @@ var createItemDistLink = function (ino, dno) {
                 console.log(err);
                 return;
             }
-            console.log("Created Link");
         });
 };
 

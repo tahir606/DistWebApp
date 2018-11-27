@@ -107,7 +107,8 @@
 
             var abc = {
                 distName: $scope.distributor_name,
-                itemList: JSON.stringify($scope.itemList)
+                itemList: JSON.stringify($scope.itemList),
+                existItemList: JSON.stringify($scope.existItemList),
             };
 
             $http({
