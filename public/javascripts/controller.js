@@ -21,12 +21,13 @@
                     var item = t.split(";");
                     item[0] = item[0].replace(/[\n\r]/g, '');
 
-                    if (item[0] == "" || item[1] == "" || item[2] == "") {
+                    if (item[0] == "" || item[1] == "" || item[2] == "" || item[3] == "") {
                     } else {
                         totalItemList.push({
                             name: item[0],
                             pack: item[1],
-                            rate: item[2]
+                            rate: item[2],
+                            company: item[3]
                         });
                     }
                 });
