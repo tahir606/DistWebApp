@@ -45,7 +45,7 @@ router.post('/submitDistributor', function (req, res) {
                 });
                 res.end();
             });
-            //----------------
+            //Existing items -------
             var existItems = JSON.parse(req.query.existItemList);
             if (existItems.length > 0) {
                 existItems.forEach(function (it) {

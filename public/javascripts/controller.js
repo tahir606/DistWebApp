@@ -53,28 +53,6 @@
 
                         console.log($scope.existItemList);
 
-                        // var BreakException = {};
-                        // var c = $scope.existItemList.length;    //Number of existing items
-                        // if (c != 0) {   //If exist Item length is 0
-                        //     while (c > 0) {   //Loop until all the existing items have been expunged
-                        //         try {
-                        //             console.log("Checking to remove: " + c);
-                        //             for (var i = 0; i < totalItemList.length; i++) {
-                        //                 $scope.existItemList.forEach(function (item) {
-                        //                     if (totalItemList[i].name == item.INAME) {  // If item names are same remove that object from array
-                        //                         console.log("Removing: " + totalItemList[i].name + " == " + item.INAME);
-                        //                         totalItemList.splice(i, 1);     //On removing break from the checking loop and start all over again with the while loop
-                        //                         c--;
-                        //                         throw BreakException;
-                        //                     }
-                        //                 });
-                        //             }
-                        //         } catch (e) {
-                        //             if (e !== BreakException) throw e;
-                        //         }
-                        //     }
-                        // }
-
                         for (var i = 0; i < $scope.existItemList.length; i++) {
                             for (var j = 0; j < totalItemList.length; j++) {
                                 if (totalItemList[j].name == $scope.existItemList[i].INAME) {  // If item names are same remove that object from array
