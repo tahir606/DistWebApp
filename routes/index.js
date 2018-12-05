@@ -17,11 +17,11 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/checkItems', function (req, res) {
-    checkDuplicateItems(JSON.parse(req.query.items_list), function (rows) {
-        res.send({
-            items: rows
-        });
-    });
+    // checkDuplicateItems(JSON.parse(req.query.items_list), function (rows) {
+    //     res.send({
+    //         items: rows
+    //     });
+    // });
 });
 
 router.post('/submitDistributor', function (req, res) {

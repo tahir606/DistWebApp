@@ -39,28 +39,6 @@
 		</div>
 	</div>
 	<br>
-	<!--Existing Items-->
-	<h4 ng-style="exist_item_msg" style="display: none">No Existing Items</h4>
-	<table ng-style="table_existingItem" style="display: none" class="table ng-cloak" cellspacing="0" cellpadding="0">
-		<thead>
-		<h1 ng-style="table_existingItem" style="display: none; font-weight: bold">Existing Items that will not be added</h1>
-		<tr>
-			<th>Item Name</th>
-			<th>Packing</th>
-			<th>Rate</th>
-			<th>Company</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ng-repeat="row in existItemList">
-			<td>{{row.INAME}}</td>
-			<td>{{row.DESCRIPTION}}</td>
-			<td>{{row.ITRADEP}}</td>
-			<td>{{row.CNAME}}</td>
-		</tr>
-		</tbody>
-	</table>
-	<br>
 	<!--New Items-->
 	<h4 ng-style="new_item_msg" style="display: none">No New Items</h4>
 	<table ng-style="table_newItem" style="display: none" class="table ng-cloak" cellspacing="0" cellpadding="0">
