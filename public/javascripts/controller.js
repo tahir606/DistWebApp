@@ -96,30 +96,28 @@
             $scope.itemList.forEach(function (item) {
                 companies.push(item.company);
             });
-
-            console.log(companies);
             var uniqueComps = companies.filter( onlyUnique );
-            console.log(uniqueComps);
-            // var abc = {
-            //     distName: $scope.distributor_name,
-            //     itemList: JSON.stringify($scope.itemList),
-            //     existItemList: JSON.stringify($scope.existItemList),
-            // };
-            //
-            // $http({
-            //     method: 'POST',
-            //     url: '/submitDistributor',
-            //     params: abc,
-            //     headers: {'Content-Type': undefined}
-            // }).then(function (success) {
-            //     if (success.status === 200) {
-            //         // window.location = '/';
-            //     }
-            // }, function (error) {
-            //     console.log(error);
-            // });
-            //
-            // console.log("Distributor Added");
+
+            var abc = {
+                distName: $scope.distributor_name,
+                itemList: JSON.stringify($scope.itemList),
+                companies: JSON.stringify(uniqueComps)
+            };
+
+            $http({
+                method: 'POST',
+                url: '/submitDistributor',
+                params: abc,
+                headers: {'Content-Type': undefined}
+            }).then(function (success) {
+                if (success.status === 200) {
+                    // window.location = '/';
+                }
+            }, function (error) {
+                console.log(error);
+            });
+
+            console.log("Distributor Added");
         }
     });
 

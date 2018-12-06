@@ -16,13 +16,13 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Distribution Network'});
 });
 
-router.get('/checkItems', function (req, res) {
-    // checkDuplicateItems(JSON.parse(req.query.items_list), function (rows) {
-    //     res.send({
-    //         items: rows
-    //     });
-    // });
-});
+// router.get('/checkItems', function (req, res) {
+// checkDuplicateItems(JSON.parse(req.query.items_list), function (rows) {
+//     res.send({
+//         items: rows
+//     });
+// });
+// });
 
 router.post('/submitDistributor', function (req, res) {
     //Everything must be executed through callable so that the values of insertion do not come up undefined
@@ -30,29 +30,16 @@ router.post('/submitDistributor', function (req, res) {
         fromINO;    //The last item number that was added before we start creating the link
     insertNewDistributorInDb(req.query.distName, function () {      //Insert new Distributor
         getMaxDistNo(function (DNO) {       //Get the code for the distributor we just inserted
-            //New Items -------
             maxDNO = DNO;
-            getMaxItemNo(function (INO) {   //Get the item that was last added
-                fromINO = INO;
-                fromINO++;          //Because the last item created is already linked to previous distributor(s)
+            //Inserting Companies
+            insertNewCompaniesInDb(JSON.parse(req.query.companies), function () {
+                //Inserting Items -------
                 var items = JSON.parse(req.query.itemList);
                 insertNewItemsInDb(items, function () {     //Insert the new Items into the database
-                    getMaxItemNo(function (toINO) {         //Get the item number after all the new items have been added
-                        for (fromINO; fromINO <= toINO; fromINO++) {    //Create a dist_item link from fromINO to toINO
-                            createItemDistLink(fromINO, maxDNO);
-                        }
-                    });
+
+                    res.end();
                 });
-                res.end();
             });
-            //Existing items -------
-            var existItems = JSON.parse(req.query.existItemList);
-            if (existItems.length > 0) {
-                existItems.forEach(function (it) {
-                    console.log("Adding existing item: " + it.INO);
-                    createItemDistLink(it.INO, maxDNO);
-                });
-            }
         });
     });
 });
@@ -76,7 +63,6 @@ var checkDuplicateItems = function (items, callable) {
 };
 
 var insertNewDistributorInDb = function (dist, callback) {
-
     con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
         "SELECT IFNULL(max(DNO),0)+1,? FROM DISTRIBUTOR_LIST",
         [dist],
@@ -90,12 +76,30 @@ var insertNewDistributorInDb = function (dist, callback) {
         });
 };
 
-var insertNewItemsInDb = function (items, callback) {
+var insertNewCompaniesInDb = function (comps, callback) {
+    comps.forEach(function (c) {
+        con.query("INSERT INTO COMPANY_LIST (CNO, CNAME) " +
+            " SELECT IFNULL(max(CNO),0)+1,?,?,? FROM COMPANY_LIST",
+            [c],
+            function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+            });
+    });
 
+    callback();
+};
+
+var insertNewItemsInDb = function (items, distNo, callback) {
     items.forEach(function (t) {
-        con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION) " +
-            " SELECT IFNULL(max(INO),0)+1,?,?,? FROM ITEM_LIST",
-            [t.name, t.rate, t.pack],
+        con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION, CNO, DNO) " +
+            " SELECT IFNULL(max(INO),0)+1,?,?,?,? " +
+            " FROM ITEM_LIST IL, COMPANY_LIST CL " +
+            " WHERE CNAME = ? " +
+            " AND CL.DNO = ?",
+            [t.name, t.rate, t.pack, distNo, t.company, distNo],
             function (err) {
                 if (err) {
                     console.log(err);
