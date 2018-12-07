@@ -26,19 +26,17 @@ router.get('/', function (req, res, next) {
 
 router.post('/submitDistributor', function (req, res) {
     //Everything must be executed through callable so that the values of insertion do not come up undefined
-    var maxDNO,     //The distributor number that was last added
-        fromINO;    //The last item number that was added before we start creating the link
+    var maxDNO;     //The distributor number that was last added
     insertNewDistributorInDb(req.query.distName, function () {      //Insert new Distributor
         getMaxDistNo(function (DNO) {       //Get the code for the distributor we just inserted
             maxDNO = DNO;
             //Inserting Companies
-            insertNewCompaniesInDb(JSON.parse(req.query.companies), function () {
-                //Inserting Items -------
+            var companies = JSON.parse(req.query.companies);
+            insertNewCompaniesInDb(companies, maxDNO, function () {
+                // Inserting Items -------
                 var items = JSON.parse(req.query.itemList);
-                insertNewItemsInDb(items, function () {     //Insert the new Items into the database
-
-                    res.end();
-                });
+                insertNewItemsInDb(items, maxDNO);
+                res.end()
             });
         });
     });
@@ -76,39 +74,44 @@ var insertNewDistributorInDb = function (dist, callback) {
         });
 };
 
-var insertNewCompaniesInDb = function (comps, callback) {
+var insertNewCompaniesInDb = function (comps, distNo, callback) {
+    var counter = 0;
     comps.forEach(function (c) {
-        con.query("INSERT INTO COMPANY_LIST (CNO, CNAME) " +
-            " SELECT IFNULL(max(CNO),0)+1,?,?,? FROM COMPANY_LIST",
-            [c],
+        con.query("INSERT INTO COMPANY_LIST (CNO, CNAME, DNO) " +
+            " SELECT IFNULL(max(CNO),0)+1,'" + c + "'," + distNo + " FROM COMPANY_LIST",
             function (err) {
                 if (err) {
+                    console.log("in err");
                     console.log(err);
-                    return;
+                }
+                counter++;
+                if (counter == comps.length) {
+                    callback();
                 }
             });
     });
-
-    callback();
 };
 
-var insertNewItemsInDb = function (items, distNo, callback) {
-    items.forEach(function (t) {
-        con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION, CNO, DNO) " +
-            " SELECT IFNULL(max(INO),0)+1,?,?,?,? " +
-            " FROM ITEM_LIST IL, COMPANY_LIST CL " +
-            " WHERE CNAME = ? " +
-            " AND CL.DNO = ?",
-            [t.name, t.rate, t.pack, distNo, t.company, distNo],
-            function (err) {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-            });
-    });
+var insertNewItemsInDb = function (items, distNo) {
 
-    callback();
+    var millisecondsToWait = 1500;
+    setTimeout(function() {
+        items.forEach(function (t) {
+            console.log(t.name, t.rate, t.pack, distNo, t.company, distNo);
+            con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION, CNO, DNO) " +
+                " SELECT IFNULL(max(INO),0)+1,?,?,?,CL.CNO,? " +
+                " FROM ITEM_LIST IL, COMPANY_LIST CL " +
+                " WHERE CNAME = ? " +
+                " AND CL.DNO = ?  ",
+                [t.name, t.rate, t.pack, distNo, t.company, distNo],
+                function (err) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                });
+        });
+    }, millisecondsToWait);
 };
 
 //This will create a link between the last item added to the database
