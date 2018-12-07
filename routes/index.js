@@ -16,14 +16,6 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Distribution Network'});
 });
 
-// router.get('/checkItems', function (req, res) {
-// checkDuplicateItems(JSON.parse(req.query.items_list), function (rows) {
-//     res.send({
-//         items: rows
-//     });
-// });
-// });
-
 router.post('/submitDistributor', function (req, res) {
     //Everything must be executed through callable so that the values of insertion do not come up undefined
     var maxDNO;     //The distributor number that was last added
@@ -41,24 +33,6 @@ router.post('/submitDistributor', function (req, res) {
         });
     });
 });
-
-var checkDuplicateItems = function (items, callable) {
-    var query = "SELECT INO, INAME, ITRADEP, DESCRIPTION FROM ITEM_LIST WHERE 1 ";
-
-    items.forEach(function (t) {
-        query = query + " OR INAME LIKE \"" + t.name + "\" ";
-    });
-
-    console.log(query);
-
-    con.query(query, function (err, rows) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        callable(rows);
-    });
-};
 
 var insertNewDistributorInDb = function (dist, callback) {
     con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
@@ -93,25 +67,29 @@ var insertNewCompaniesInDb = function (comps, distNo, callback) {
 };
 
 var insertNewItemsInDb = function (items, distNo) {
-
-    var millisecondsToWait = 1500;
-    setTimeout(function() {
-        items.forEach(function (t) {
-            console.log(t.name, t.rate, t.pack, distNo, t.company, distNo);
-            con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION, CNO, DNO) " +
-                " SELECT IFNULL(max(INO),0)+1,?,?,?,CL.CNO,? " +
-                " FROM ITEM_LIST IL, COMPANY_LIST CL " +
-                " WHERE CNAME = ? " +
-                " AND CL.DNO = ?  ",
-                [t.name, t.rate, t.pack, distNo, t.company, distNo],
-                function (err) {
-                    if (err) {
-                        console.log(err);
-                        return;
-                    }
-                });
-        });
-    }, millisecondsToWait);
+    items.forEach(function (t) {
+        con.query("SELECT CL.CNO,CL.CNAME " +
+        " FROM COMPANY_LIST CL" +
+        " WHERE CNAME = ?" +
+        " AND CL.DNO = ? ",
+            [t.company, distNo],
+            function (err, rows) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION, CNO, DNO) " +
+                    " SELECT IFNULL(max(INO),0)+1,?,?,?,?,? " +
+                    " FROM ITEM_LIST IL",
+                    [t.name, t.rate, t.pack, rows[0].CNO, distNo],
+                    function (err) {
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+                    });
+            });
+    });
 };
 
 //This will create a link between the last item added to the database
