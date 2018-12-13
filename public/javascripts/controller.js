@@ -57,6 +57,10 @@
 
             var abc = {
                 distName: $scope.distributor_name,
+                distEmail: $scope.distributor_email,
+                distPhone: $scope.distributor_phone,
+                distWebsite: $scope.distributor_website,
+                distAddr: $scope.distributor_address,
                 itemList: JSON.stringify($scope.itemList),
                 companies: JSON.stringify(uniqueComps)
             };

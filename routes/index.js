@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
 router.post('/submitDistributor', function (req, res) {
     //Everything must be executed through callable so that the values of insertion do not come up undefined
     var maxDNO;     //The distributor number that was last added
-    insertNewDistributorInDb(req.query.distName, function () {      //Insert new Distributor
+    insertNewDistributorInDb(req.query, function () {      //Insert new Distributor
         getMaxDistNo(function (DNO) {       //Get the code for the distributor we just inserted
             maxDNO = DNO;
             //Inserting Companies
@@ -35,9 +35,9 @@ router.post('/submitDistributor', function (req, res) {
 });
 
 var insertNewDistributorInDb = function (dist, callback) {
-    con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME) " +
-        "SELECT IFNULL(max(DNO),0)+1,? FROM DISTRIBUTOR_LIST",
-        [dist],
+    con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME, DEMAIL, DPHONE, DWEBSITE, DADDR) " +
+        "SELECT IFNULL(max(DNO),0)+1,?,?,?,?,? FROM DISTRIBUTOR_LIST",
+        [dist.distName, dist.distEmail, dist.distPhone, dist.distWebsite, dist.distAddr],
         function (err) {
             if (err) {
                 console.log(err);
@@ -73,11 +73,12 @@ var insertNewItemsInDb = function (items, distNo) {
         " WHERE CNAME = ?" +
         " AND CL.DNO = ? ",
             [t.company, distNo],
-            function (err, rows) {
+            function (err, rows) { 
                 if (err) {
                     console.log(err);
                     return;
                 }
+                console.log(rows);
                 con.query("INSERT INTO ITEM_LIST (INO, INAME, ITRADEP, DESCRIPTION, CNO, DNO) " +
                     " SELECT IFNULL(max(INO),0)+1,?,?,?,?,? " +
                     " FROM ITEM_LIST IL",
