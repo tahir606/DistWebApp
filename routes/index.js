@@ -28,7 +28,7 @@ router.post('/submitDistributor', function (req, res) {
                 // Inserting Items -------
                 var items = JSON.parse(req.query.itemList);
                 insertNewItemsInDb(items, maxDNO);
-                res.end()
+                res.end();
             });
         });
     });
@@ -73,7 +73,7 @@ var insertNewItemsInDb = function (items, distNo) {
         " WHERE CNAME = ?" +
         " AND CL.DNO = ? ",
             [t.company, distNo],
-            function (err, rows) { 
+            function (err, rows) {
                 if (err) {
                     console.log(err);
                     return;
