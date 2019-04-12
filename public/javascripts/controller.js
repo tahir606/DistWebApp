@@ -58,6 +58,7 @@
             var abc = {
                 distName: $scope.distributor_name,
                 distEmail: $scope.distributor_email,
+                distPass: $scope.distributor_password,
                 distPhone: $scope.distributor_phone,
                 distWebsite: $scope.distributor_website,
                 distAddr: $scope.distributor_address,
