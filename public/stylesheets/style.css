@@ -1,11 +1,11 @@
 body {
-  padding: 50px;
+  padding: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
-}
+/*a {*/
+  /*color: #00B7FF;*/
+/*}*/
 
 .ng-cloak {
 	display: none !important;
@@ -21,6 +21,13 @@ a {
     margin: auto;
 }
 
+.form-control {
+    width: 12%;
+}
+
+h5 {
+    font-size: 15px;
+}
 
 .form {
     position: relative;
@@ -81,20 +88,6 @@ p.err-msg-show {
     margin-top: 5px;
 }
 
-/*html, body {*/
-    /*background: #94618e; !* fallback for old browsers *!*/
-    /*background: -webkit-linear-gradient(right, #94618e, #b282ac);*/
-    /*background: -o-linear-gradient(right, #94618e, #b282ac);*/
-    /*background: linear-gradient(to left, #94618e, #b282ac);*/
-    /*background-size: cover;*/
-    /*width: 100%;*/
-    /*height: 100%;*/
-    /*font-family: "Roboto", sans-serif;*/
-    /*-webkit-font-smoothing: antialiased;*/
-    /*-moz-osx-font-smoothing: grayscale;*/
-    /*padding-bottom: 20px;*/
-/*}*/
-
 .ng-cloak {
     display: none !important;
 }
@@ -102,27 +95,3 @@ p.err-msg-show {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
-
-/*h1 {*/
-    /*position: relative;*/
-    /*font-size: 30px;*/
-    /*z-index: 1;*/
-    /*overflow: hidden;*/
-    /*text-align: center;*/
-/*}*/
-/*h1:before, h1:after {*/
-    /*position: absolute;*/
-    /*top: 51%;*/
-    /*overflow: hidden;*/
-    /*width: 50%;*/
-    /*height: 1px;*/
-    /*content: '\a0';*/
-    /*background-color: red;*/
-/*}*/
-/*h1:before {*/
-    /*margin-left: -50%;*/
-    /*text-align: right;*/
-/*}*/
-/*.color {*/
-    /*background-color: #ccc;*/
-/*}*/

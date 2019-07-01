@@ -1,71 +1,103 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="mainPage">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-	<title><%= title %></title>
+    <title><%= title %></title>
 
-	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-	<link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- Latest compiled and minified CSS -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <!-- Optional theme -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-	<!-- AngularJS -->
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-	<script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="javascripts/app.js"></script>
-	<script src="javascripts/controller.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="javascripts/app.js"></script>
+    <script src="javascripts/controller.js"></script>
 </head>
 <body ng-controller="mainCtrl" ng-cloak>
-	<h1><%= title %></h1>
-	<p>Welcome to <%= title %></p>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" routerLink="#" style="color: white;"><%= title %></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+
+<div style="margin: 15px">
+    <br>
+    <p style="font-weight: bold; font-size: 18px">Welcome to <%= title %></p>
     <br><br>
-	<div class="login-page">
-		<div class="form">
-			<form class="login-form" ng-submit="sub()">
-                <h4>Sign Up:</h4>
-				<h3>Distributor Details</h3>
-				<input ng-model="distributor_name" name="distributor_name" placeholder="Distributor Name" required/> <br>
-				<input ng-model="distributor_email" name="distributor_email" placeholder="Email" required/> <br>
-				<input ng-model="distributor_pass" name="distributor_pass" placeholder="Password" type="password" required/> <br>
-				<input ng-model="distributor_phone" name="distributor_phone" placeholder="Phone" required/> <br>
-				<input ng-model="distributor_website" name="distributor_website" placeholder="Website" required/> <br>
-				<textarea ng-model="distributor_address" placeholder="Address" rows="8" cols="50" required></textarea>
+    <div class="login-page">
+        <div class="form">
+            <form class="login-form" ng-submit="sub()">
+                <h5>Sign Up:</h5>
+                <h4>Distributor Details</h4>
+                <br>
+                <input ng-model="distributor_name" name="distributor_name" placeholder="Distributor Name" required
+                       class="form-control"/>
+                <input ng-model="distributor_email" name="distributor_email" placeholder="Email" required
+                       class="form-control"/>
+                <input ng-model="distributor_pass" name="distributor_pass" placeholder="Password" type="password"
+                       required class="form-control"/>
+                <input ng-model="distributor_phone" name="distributor_phone" placeholder="Phone" required
+                       class="form-control"/>
+                <input ng-model="distributor_website" name="distributor_website" placeholder="Website" required
+                       class="form-control"/>
+                <textarea ng-model="distributor_address" placeholder="Address" rows="8" cols="50" required
+                          class="form-control" style="width: 30%"></textarea> <br>
                 <h5>Please strictly follow this format to import items:</h5>
                 <h5 style="font-weight: bold">Item Name;Packing;Rate;Company Name,</h5>
                 <br>
                 <input type='file' onchange='openFile(event)'/>
-				<p class="ng-cloak err-msg-show" >{{msgHide}}</p>
-				<input type="submit" value="Submit"/>
-			</form>
-		</div>
-	</div>
-	<br>
-	<!--New Items-->
-	<h4 ng-style="new_item_msg" style="display: none">No New Items</h4>
-	<table ng-style="table_newItem" style="display: none" class="table ng-cloak" cellspacing="0" cellpadding="0">
-		<thead>
-		<h4 ng-style="table_newItem" style="display: none; font-weight: bold">New Items</h4>
-		<tr>
-			<th>Item Name</th>
-			<th>Packing</th>
-			<th>Rate</th>
-			<th>Company</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ng-repeat="row in itemList">
-			<td>{{row.name}}</td>
-			<td>{{row.pack}}</td>
-			<td>{{row.rate}}</td>
-			<td>{{row.company}}</td>
-		</tr>
-		</tbody>
-	</table>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                <p class="ng-cloak err-msg-show">{{msgHide}}</p>
+                <input style="padding: 10px; background-color: #000000; font-weight: 300; color: white ;"
+                       type="submit"
+                       value="Submit"/>
+            </form>
+        </div>
+    </div>
+    <br>
+    <!--New Items-->
+    <h4 ng-style="new_item_msg" style="display: none">No New Items</h4>
+    <table ng-style="table_newItem" style="display: none" class="table ng-cloak" cellspacing="0" cellpadding="0">
+        <thead>
+        <h4 ng-style="table_newItem" style="display: none; font-weight: bold">New Items</h4>
+        <tr>
+            <th>Item Name</th>
+            <th>Packing</th>
+            <th>Rate</th>
+            <th>Company</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in itemList">
+            <td>{{row.name}}</td>
+            <td>{{row.pack}}</td>
+            <td>{{row.rate}}</td>
+            <td>{{row.company}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
