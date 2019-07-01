@@ -35,7 +35,7 @@
 
 <div style="margin: 15px">
     <br>
-    <p style="font-weight: bold; font-size: 18px">Welcome to <%= title %></p>
+    <p style="font-weight: bold; font-size: 25px">Welcome to <%= title %></p>
     <br><br>
     <div class="login-page">
         <div class="form">
@@ -49,6 +49,8 @@
                        class="form-control"/>
                 <input ng-model="distributor_pass" name="distributor_pass" placeholder="Password" type="password"
                        required class="form-control"/>
+                <input ng-model="distributor_pass2" name="distributor_pass2" placeholder="Confirm Password" type="password"
+                       required class="form-control"/>
                 <input ng-model="distributor_phone" name="distributor_phone" placeholder="Phone" required
                        class="form-control"/>
                 <input ng-model="distributor_website" name="distributor_website" placeholder="Website" required
@@ -60,7 +62,7 @@
                 <br>
                 <input type='file' onchange='openFile(event)'/>
                 <p class="ng-cloak err-msg-show">{{msgHide}}</p>
-                <input style="padding: 10px; background-color: #000000; font-weight: 300; color: white ;"
+                <input style="padding: 10px; background-color: #000000; font-weight: 300; color: white;"
                        type="submit"
                        value="Submit"/>
             </form>
