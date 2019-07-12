@@ -40,8 +40,8 @@
     <div class="login-page">
         <div class="form">
             <form class="login-form" ng-submit="sub()">
-                <h5>Sign Up:</h5>
-                <h4>Distributor Details</h4>
+                <h3>Create an account:</h3>
+                <h4 style="font-size: 18px; font-weight: bold">Distributor Details</h4>
                 <br>
                 <input ng-model="distributor_name" name="distributor_name" placeholder="Distributor Name" required
                        class="form-control"/>
@@ -49,14 +49,17 @@
                        class="form-control"/>
                 <input ng-model="distributor_pass" name="distributor_pass" placeholder="Password" type="password"
                        required class="form-control"/>
-                <input ng-model="distributor_pass2" name="distributor_pass2" placeholder="Confirm Password" type="password"
+                <input ng-model="distributor_pass2" name="distributor_pass2" placeholder="Confirm Password"
+                       type="password"
                        required class="form-control"/>
                 <input ng-model="distributor_phone" name="distributor_phone" placeholder="Phone" required
                        class="form-control"/>
-                <input ng-model="distributor_website" name="distributor_website" placeholder="Website" required
+                <input ng-model="distributor_website" name="distributor_website" placeholder="Website"
                        class="form-control"/>
-                <textarea ng-model="distributor_address" placeholder="Address" rows="8" cols="50" required
-                          class="form-control" style="width: 30%"></textarea> <br>
+                <input ng-model="distributor_city" name="distributor_city" placeholder="City"
+                       class="form-control"/>
+                <textarea ng-model="distributor_address" placeholder="Address" rows="3" cols="50" required
+                          class="form-control"></textarea> <br>
                 <h5>Please strictly follow this format to import items:</h5>
                 <h5 style="font-weight: bold">Item Name;Packing;Rate;Company Name,</h5>
                 <br>

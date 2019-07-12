@@ -22,7 +22,21 @@ body {
 }
 
 .form-control {
-    width: 12%;
+    width: 18%;
+}
+
+textarea.form-control {
+    width: 25%;
+}
+
+@media screen and (max-width: 540px) {
+    .form-control {
+        width: 75%;
+    }
+
+    textarea.form-control {
+        width: 90%;
+    }
 }
 
 h5 {

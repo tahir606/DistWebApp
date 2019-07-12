@@ -35,9 +35,9 @@ router.post('/submitDistributor', function (req, res) {
 });
 
 var insertNewDistributorInDb = function (dist, callback) {
-    con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME, DEMAIL, DPHONE, DWEBSITE, DADDR, DPASS) " +
-        "SELECT IFNULL(max(DNO),0)+1,?,?,?,?,?,? FROM DISTRIBUTOR_LIST",
-        [dist.distName, dist.distEmail, dist.distPhone, dist.distWebsite, dist.distAddr, dist.distPass],
+    con.query("INSERT INTO DISTRIBUTOR_LIST(DNO, DNAME, DEMAIL, DPHONE, DWEBSITE, DADDR, DPASS, DCITY) " +
+        "SELECT IFNULL(max(DNO),0)+1,?,?,?,?,?,?,? FROM DISTRIBUTOR_LIST",
+        [dist.distName, dist.distEmail, dist.distPhone, dist.distWebsite, dist.distAddr, dist.distPass, dist.distCity],
         function (err) {
             if (err) {
                 console.log(err);

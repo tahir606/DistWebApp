@@ -43,11 +43,7 @@
         };
 
         $scope.sub = function () {
-            console.log("Trying to submit");
 
-            console.log($scope.distributor_pass);
-            console.log($scope.distributor_pass2);
-            console.log($scope.distributor_pass === $scope.distributor_pass2);
             if ($scope.distributor_pass !== $scope.distributor_pass2) {
                 $scope.msgHide = "Password is not confirmed."
                 return;
@@ -70,6 +66,7 @@
                 distPass: $scope.distributor_pass,
                 distPhone: $scope.distributor_phone,
                 distWebsite: $scope.distributor_website,
+                distCity: $scope.distributor_city,
                 distAddr: $scope.distributor_address,
                 itemList: JSON.stringify($scope.itemList),
                 companies: JSON.stringify(uniqueComps)
